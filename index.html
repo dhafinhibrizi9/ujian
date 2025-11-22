@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="ujian.css">
+</head>
+<body>
+    
+</body>
+</html>
+<div class="container" id="examPage">
+        <header>
+            <div class="exam-info">
+                <div class="exam-title">Ujian Matematika - Kelas 10</div>
+                <div class="exam-subject">Waktu: 90 Menit | Sistem Pengawasan Aktif</div>
+            </div>
+            <div class="timer-container">
+                <div class="timer" id="timer">01:30:00</div>
+                <div class="warning">KAMERA DAN LAYAR SEDANG DIREKAM!</div>
+            </div>
+        </header>
+        
+        <div class="main-content">
+            <div class="exam-content">
+                <div class="student-info">
+                    <div class="form-group">
+                        <label for="nama">Nama Lengkap</label>
+                        <input type="text" id="nama" name="nama" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="kelas">Kelas</label>
+                        <select id="kelas" name="kelas" required>
+                            <option value="">Pilih Kelas</option>
+                            <option value="10A">10A</option>
+                            <option value="10B">10B</option>
+                            <option value="10C">10C</option>
+                            <option value="10D">10D</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="mapel">Mata Pelajaran</label>
+                        <input type="text" id="mapel" name="mapel" value="Matematika" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="nomor">Nomor Peserta</label>
+                        <input type="text" id="nomor" name="nomor" required>
+                    </div>
+                </div>
+                
+                <div class="questions-container">
+                    <div class="section">
+                        <h3 class="section-title">Pilihan Ganda (10 Soal)</h3>
+                        
+                        <div id="multipleChoiceQuestions">
+                            <!-- Soal akan di-generate oleh JavaScript -->
+                        </div>
+                    </div>
+                    
+                    <div class="section">
+                        <h3 class="section-title">Essay (3 Soal)</h3>
+                        
+                        <div id="essayQuestions">
+                            <!-- Soal essay akan di-generate oleh JavaScript -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="submit-container">
+                    <button type="button" id="submitBtn">Kumpulkan Jawaban</button>
+                    <button type="button" id="adminBtn" class="btn-secondary" style="margin-left: 10px;">Admin</button>
+                </div>
+            </div>
+            
+            <div class="surveillance-panel">
+                <div class="surveillance-title">SISTEM PENGAWASAN</div>
+                
+                <div class="recording-indicator">
+                    <div class="recording-dot"></div>
+                    <span>REKAMAN AKTIF</span>
+                </div>
+                
+                <div class="camera-feed">
+                    <video id="cameraVideo" autoplay muted playsinline></video>
+                    <div class="feed-label">KAMERA PENGAWAS</div>
+                </div>
+                
+                <div class="screen-feed">
+                    <video id="screenVideo" autoplay muted playsinline></video>
+                    <div class="feed-label">REKAMAN LAYAR</div>
+                </div>
+                
+                <div class="surveillance-info">
+                    <p><strong>Status:</strong> <span id="surveillanceStatus">Menunggu...</span></p>
+                    <p><strong>Durasi Rekaman:</strong> <span id="recordingDuration">00:00:00</span></p>
+                    <p><strong>Percobaan Keluar:</strong> <span id="exitAttempts">0</span></p>
+                    <p><strong>Frame Rate:</strong> <span id="frameRate">0 fps</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Halaman Hasil -->
+    <div class="container hidden" id="completionPage">
+        <div class="completion-page">
+            <div class="completion-icon">🎉</div>
+            <h1 class="completion-title">SELAMAT!</h1>
+            <p class="completion-message">
+                Anda telah berhasil menyelesaikan ujian Matematika. Jawaban Anda telah tercatat dengan baik 
+                dan akan segera diproses oleh sistem. Terima kasih atas partisipasinya.
+            </p>
+            
+            <div class="completion-details">
+                <div class="detail-item">
+                    <span>Nama:</span>
+                    <span id="resultNama">-</span>
+                </div>
+                <div class="detail-item">
+                    <span>Kelas:</span>
+                    <span id="resultKelas">-</span>
+                </div>
+                <div class="detail-item">
+                    <span>Mata Pelajaran:</span>
+                    <span id="resultMapel">-</span>
+                </div>
+                <div class="detail-item">
+                    <span>Nomor Peserta:</span>
+                    <span id="resultNomor">-</span>
+                </div>
+                <div class="detail-item">
+                    <span>Waktu Selesai:</span>
+                    <span id="resultWaktu">-</span>
+                </div>
+                <div class="detail-item">
+                    <span>Status:</span>
+                    <span style="color: #2ecc71;">Terkumpul</span>
+                </div>
+            </div>
+            
+            <div class="permission-buttons">
+                <button class="btn-primary" id="backToExamBtn">Kembali ke Ujian</button>
+                <button class="btn-secondary" id="adminAccessBtn">Akses Admin</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Halaman Admin -->
+    <div class="container hidden" id="adminPage">
+        <div class="admin-panel">
+            <h2 class="admin-title">PANEL ADMIN - DATA SISWA</h2>
+            
+            <div class="password-form">
+                <div class="form-group">
+                    <label for="adminPassword">Password Admin:</label>
+                    <input type="password" id="adminPassword" placeholder="Masukkan password admin">
+                </div>
+                <button type="button" id="loginAdminBtn" class="btn-primary">Masuk</button>
+                <button type="button" id="backFromAdminBtn" class="btn-secondary" style="margin-left: 10px;">Kembali</button>
+            </div>
+            
+            <div id="adminContent" class="hidden">
+                <div class="form-group">
+                    <input type="text" id="searchStudent" placeholder="Cari nama siswa..." style="width: 100%;">
+                </div>
+                
+                <table class="students-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama</th>
+                            <th>Kelas</th>
+                            <th>Nomor Peserta</th>
+                            <th>Waktu Submit</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentsTableBody">
+                        <!-- Data siswa akan diisi oleh JavaScript -->
+                    </tbody>
+                </table>
+                
+                <div class="submit-container">
+                    <button type="button" id="exportDataBtn" class="btn-primary">Export Data</button>
+                    <button type="button" id="backToMainBtn" class="btn-secondary">Kembali ke Menu Utama</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Lihat Jawaban -->
+    <div class="modal-overlay hidden" id="answerModal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeAnswerModal">&times;</button>
+            <h2>Detail Jawaban Siswa</h2>
+            <div id="studentAnswerDetails">
+                <!-- Detail jawaban akan diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Overlay untuk loading dan permission -->
+    <div class="fullscreen-overlay initial-loading" id="initialLoading">
+        <h2>UJIAN SEDANG DIMULAI</h2>
+        <p>Harap tunggu, sistem sedang mempersiapkan ujian...</p>
+        <div class="countdown" id="loadingCountdown">3</div>
+        <p>Browser akan masuk ke mode layar penuh secara otomatis.</p>
+        <p>Jangan tutup browser selama ujian berlangsung!</p>
+    </div>
+    
+    <div class="fullscreen-overlay hidden" id="permissionOverlay">
+        <div class="permission-request">
+            <h2>IZIN AKSES DIBUTUHKAN</h2>
+            <p>Untuk melanjutkan ujian, Anda perlu memberikan izin akses untuk:</p>
+            <ul style="text-align: left; margin: 15px 0;">
+                <li>Kamera (untuk pengawasan)</li>
+                <li>Rekaman layar (untuk memantau aktivitas)</li>
+                <li>Microphone (opsional, untuk lingkungan)</li>
+            </ul>
+            <p>Izin ini diperlukan untuk memastikan integritas ujian.</p>
+            <div class="permission-buttons">
+                <button class="btn-primary" id="grantPermission">Izinkan Akses</button>
+                <button class="btn-danger" id="denyPermission">Tolak</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="fullscreen-overlay hidden" id="fullscreenOverlay">
+        <h2>PERINGATAN!</h2>
+        <p>Anda mencoba keluar dari mode ujian.</p>
+        <p class="attempt-count" id="attemptCount">0</p>
+        <p class="attempt-message" id="attemptMessage">Percobaan ini akan dicatat!</p>
+        <p>Silakan kembali ke halaman ujian.</p>
+    </div>
+
+    <script src="ujian.js"></script>
